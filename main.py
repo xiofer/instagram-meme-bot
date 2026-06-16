@@ -1,21 +1,3 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-import requests
-import os
-
-app = FastAPI()
-
-IG_BUSINESS_ID = os.getenv("IG_BUSINESS_ID")
-PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
-
-class ReelRequest(BaseModel):
-    video_url: str
-    caption: str
-
-@app.get("/")
-def root():
-    return {"status": "working"}
-
 @app.post("/publish-reel")
 def publish_reel(data: ReelRequest):
 
@@ -31,4 +13,22 @@ def publish_reel(data: ReelRequest):
         }
     ).json()
 
-    return create_response
+    if "id" not in create_response:
+        return create_response
+
+    creation_id = create_response["id"]
+
+    publish_url = f"https://graph.facebook.com/v25.0/{IG_BUSINESS_ID}/media_publish"
+
+    publish_response = requests.post(
+        publish_url,
+        data={
+            "creation_id": creation_id,
+            "access_token": PAGE_ACCESS_TOKEN
+        }
+    ).json()
+
+    return {
+        "creation_response": create_response,
+        "publish_response": publish_response
+    }
