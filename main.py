@@ -13,8 +13,8 @@ def root():
 
 @app.post("/create-reel")
 def create_reel(data: ReelRequest):
-return {
-    "status": "success",
-"image_url": data.image_url,
-"caption": data.caption
-}
+    return {
+        "status": "success",
+        "image_url": data.image_url,
+        "caption": data.caption
+    }
