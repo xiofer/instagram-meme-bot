@@ -4,15 +4,11 @@ from pydantic import BaseModel
 app = FastAPI()
 
 class ReelRequest(BaseModel):
-image_url: str
-caption: str
-
-
-
+    image_url: str
+    caption: str
 
 @app.get("/")
 def root():
-  
     return {"status": "working"}
 
 @app.post("/create-reel")
