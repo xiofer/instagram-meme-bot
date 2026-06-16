@@ -14,17 +14,21 @@ class ReelRequest(BaseModel):
     caption: str
 
 
+class PublishRequest(BaseModel):
+    creation_id: str
+
+
 @app.get("/")
 def root():
     return {"status": "working"}
 
 
-@app.post("/publish-reel")
-def publish_reel(data: ReelRequest):
+@app.post("/create-reel")
+def create_reel(data: ReelRequest):
 
     create_url = f"https://graph.facebook.com/v25.0/{IG_BUSINESS_ID}/media"
 
-    create_response = requests.post(
+    response = requests.post(
         create_url,
         data={
             "media_type": "REELS",
@@ -34,22 +38,20 @@ def publish_reel(data: ReelRequest):
         }
     ).json()
 
-    if "id" not in create_response:
-        return create_response
+    return response
 
-    creation_id = create_response["id"]
+
+@app.post("/publish-reel")
+def publish_reel(data: PublishRequest):
 
     publish_url = f"https://graph.facebook.com/v25.0/{IG_BUSINESS_ID}/media_publish"
 
-    publish_response = requests.post(
+    response = requests.post(
         publish_url,
         data={
-            "creation_id": creation_id,
+            "creation_id": data.creation_id,
             "access_token": PAGE_ACCESS_TOKEN
         }
     ).json()
 
-    return {
-        "creation_response": create_response,
-        "publish_response": publish_response
-    }
+    return response
