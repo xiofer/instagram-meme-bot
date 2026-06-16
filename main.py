@@ -1,3 +1,5 @@
+import cloudinary
+import cloudinary.uploader
 from PIL import Image
 from moviepy import ImageClip
 from fastapi import FastAPI
@@ -11,6 +13,11 @@ app = FastAPI()
 IG_BUSINESS_ID = os.getenv("IG_BUSINESS_ID")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 class ReelRequest(BaseModel):
     video_url: str
