@@ -30,33 +30,15 @@ def get_meme():
     url = "https://www.reddit.com/r/memes/top.json?t=day&limit=25"
 
     headers = {
-        "User-Agent": "GhantaMemBot/1.0"
+        "User-Agent": "Mozilla/5.0"
     }
 
-    data = requests.get(url, headers=headers).json()
+    response = requests.get(url, headers=headers)
 
-    posts = data["data"]["children"]
-
-    memes = []
-
-    for post in posts:
-
-        post_data = post["data"]
-
-        image_url = post_data.get("url_overridden_by_dest", "")
-
-        if image_url.endswith((".jpg", ".jpeg", ".png")):
-
-            memes.append({
-                "title": post_data["title"],
-                "image_url": image_url
-            })
-
-    if not memes:
-        return {"error": "No memes found"}
-
-    return random.choice(memes)
-
+    return {
+        "status_code": response.status_code,
+        "text": response.text[:500]
+    }
 
 @app.post("/create-reel")
 def create_reel(data: ReelRequest):
