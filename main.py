@@ -1,3 +1,5 @@
+from PIL import Image
+from moviepy import ImageClip
 from fastapi import FastAPI
 from pydantic import BaseModel
 import requests
@@ -75,5 +77,32 @@ def publish_reel(data: PublishRequest):
             "access_token": PAGE_ACCESS_TOKEN
         }
     ).json()
+    
+@app.get("/make-video")
+def make_video():
 
+    meme = requests.get(
+        "https://meme-api.com/gimme"
+    ).json()
+
+    image_url = meme["url"]
+
+    image_data = requests.get(image_url).content
+
+    with open("meme.jpg", "wb") as f:
+        f.write(image_data)
+
+    clip = ImageClip("meme.jpg")
+    clip = clip.with_duration(5)
+
+    clip.write_videofile(
+        "meme.mp4",
+        fps=24
+    )
+
+    return {
+        "title": meme["title"],
+        "image_url": image_url,
+        "video_created": True
+    }
     return response
