@@ -1,6 +1,6 @@
 fastapi
 uvicorn
 requests
-pillow
+cloudinary
 moviepy
-python-multipart
+pillow
