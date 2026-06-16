@@ -35,6 +35,15 @@ def get_meme():
         "title": response["title"],
         "image_url": response["url"]
     }
+@app.get("/test-video")
+def test_video():
+
+    with open("test.txt", "w") as f:
+        f.write("hello")
+
+    return {
+        "status": "success"
+    }
     
 @app.post("/create-reel")
 def create_reel(data: ReelRequest):
