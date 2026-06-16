@@ -9,7 +9,8 @@ caption: str
 
 @app.get("/")
 def root():
-return {"status": "working"}
+  
+    return {"status": "working"}
 
 @app.post("/create-reel")
 def create_reel(data: ReelRequest):
