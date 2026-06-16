@@ -7,6 +7,9 @@ class ReelRequest(BaseModel):
 image_url: str
 caption: str
 
+
+
+
 @app.get("/")
 def root():
   
