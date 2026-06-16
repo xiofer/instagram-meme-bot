@@ -107,9 +107,14 @@ def make_video():
         fps=24
     )
 
-    return {
+    upload_result = cloudinary.uploader.upload(
+    "meme.mp4",
+    resource_type="video"
+)
+
+return {
     "title": meme["title"],
     "image_url": image_url,
     "video_created": True,
-    "video_file": "meme.mp4"
+    "video_url": upload_result["secure_url"]
 }
