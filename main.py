@@ -27,19 +27,15 @@ def root():
 @app.get("/get-meme")
 def get_meme():
 
-    url = "https://www.reddit.com/r/memes/top.json?t=day&limit=25"
-
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
-
-    response = requests.get(url, headers=headers)
+    response = requests.get(
+        "https://meme-api.com/gimme"
+    ).json()
 
     return {
-        "status_code": response.status_code,
-        "text": response.text[:500]
+        "title": response["title"],
+        "image_url": response["url"]
     }
-
+    
 @app.post("/create-reel")
 def create_reel(data: ReelRequest):
 
