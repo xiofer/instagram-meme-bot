@@ -16,19 +16,9 @@ class ReelRequest(BaseModel):
 def root():
     return {"status": "working"}
 
-@app.post("/publish-reel")
-def publish_reel(data: ReelRequest):
-
-    create_url = f"https://graph.facebook.com/v25.0/{IG_BUSINESS_ID}/media"
-
-    create_response = requests.post(
-        create_url,
-        data={
-            "media_type": "REELS",
-            "video_url": data.video_url,
-            "caption": data.caption,
-            "access_token": PAGE_ACCESS_TOKEN
-        }
-    ).json()
-
-    return create_response
+@app.get("/")
+def root():
+    return {
+        "ig_id": IG_BUSINESS_ID,
+        "token_exists": PAGE_ACCESS_TOKEN is not None
+    }
