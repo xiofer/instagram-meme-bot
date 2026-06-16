@@ -101,8 +101,8 @@ def make_video():
     )
 
     return {
-        "title": meme["title"],
-        "image_url": image_url,
-        "video_created": True
-    }
-    return response
+    "title": meme["title"],
+    "image_url": image_url,
+    "video_created": True,
+    "video_file": "meme.mp4"
+}
