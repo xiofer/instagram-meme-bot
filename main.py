@@ -114,11 +114,6 @@ def make_video():
     resource_type="video"
 )
 
-    upload_result = cloudinary.uploader.upload(
-        "meme.mp4",
-        resource_type="video"
-    )
-
     return {
         "title": meme["title"],
         "image_url": image_url,
