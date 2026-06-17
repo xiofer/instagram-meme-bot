@@ -45,18 +45,20 @@ def get_meme():
         "image_url": response["url"]
     }
 
-@app.get("/cloudinary-test")
-def cloudinary_test():
+@app.get("/cloudinary-video-test")
+def cloudinary_video_test():
 
-    image_url = "https://picsum.photos/500"
+    clip = ImageClip("test.jpg")
+    clip = clip.with_duration(3)
 
-    image_data = requests.get(image_url).content
-
-    with open("test.jpg", "wb") as f:
-        f.write(image_data)
+    clip.write_videofile(
+        "test.mp4",
+        fps=24
+    )
 
     result = cloudinary.uploader.upload(
-        "test.jpg"
+        "test.mp4",
+        resource_type="video"
     )
 
     return {
