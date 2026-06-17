@@ -84,6 +84,8 @@ def publish_reel(data: PublishRequest):
             "access_token": PAGE_ACCESS_TOKEN
         }
     ).json()
+
+    return response
     
 @app.get("/make-video")
 def make_video():
@@ -112,9 +114,14 @@ def make_video():
     resource_type="video"
 )
 
-return {
-    "title": meme["title"],
-    "image_url": image_url,
-    "video_created": True,
-    "video_url": upload_result["secure_url"]
-}
+    upload_result = cloudinary.uploader.upload(
+        "meme.mp4",
+        resource_type="video"
+    )
+
+    return {
+        "title": meme["title"],
+        "image_url": image_url,
+        "video_created": True,
+        "video_url": upload_result["secure_url"]
+    }
