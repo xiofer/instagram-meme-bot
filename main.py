@@ -1,7 +1,7 @@
 import cloudinary
 import cloudinary.uploader
 from PIL import Image
-from moviepy import ImageClip, CompositeVideoClip
+from moviepy import ImageClip
 from fastapi import FastAPI
 from pydantic import BaseModel
 import requests
@@ -129,23 +129,8 @@ def make_video():
     with open("meme.jpg", "wb") as f:
         f.write(image_data)
 
-    bg = (
-        ImageClip("meme.jpg")
-        .resized(height=1920)
-        .with_duration(5)
-    )
-
-    fg = (
-        ImageClip("meme.jpg")
-        .resized(width=1000)
-        .with_duration(5)
-        .with_position("center")
-    )
-
-    clip = CompositeVideoClip(
-        [bg, fg],
-        size=(1080, 1920)
-    )
+    clip = ImageClip("meme.jpg")
+    clip = clip.with_duration(5)
 
     clip.write_videofile(
         "meme.mp4",
