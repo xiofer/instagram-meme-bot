@@ -44,6 +44,16 @@ def get_meme():
         "title": response["title"],
         "image_url": response["url"]
     }
+
+@app.get("/cloudinary-test")
+def cloudinary_test():
+
+    result = cloudinary.uploader.upload(
+        "meme.jpg"
+    )
+
+    return result
+
 @app.get("/test-video")
 def test_video():
 
