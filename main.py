@@ -48,6 +48,13 @@ def get_meme():
 @app.get("/cloudinary-video-test")
 def cloudinary_video_test():
 
+    image_data = requests.get(
+        "https://picsum.photos/500"
+    ).content
+
+    with open("test.jpg", "wb") as f:
+        f.write(image_data)
+
     clip = ImageClip("test.jpg")
     clip = clip.with_duration(3)
 
@@ -64,6 +71,7 @@ def cloudinary_video_test():
     return {
         "url": result["secure_url"]
     }
+    
 @app.get("/test-video")
 def test_video():
 
